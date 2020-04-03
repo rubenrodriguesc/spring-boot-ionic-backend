@@ -59,7 +59,7 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
-	
+
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 
@@ -72,6 +72,11 @@ public class CursomcApplication implements CommandLineRunner {
 
 		Categoria cat1 = new Categoria(null, "Informatica");
 		Categoria cat2 = new Categoria(null, "Escritório");
+		Categoria cat3 = new Categoria(null, "Cama, Mesa e Banho");
+		Categoria cat4 = new Categoria(null, "Eletrônicos");
+		Categoria cat5 = new Categoria(null, "Jardinagem");
+		Categoria cat6 = new Categoria(null, "Decoração");
+		Categoria cat7 = new Categoria(null, "Perfumaria");
 
 		Produto p1 = new Produto(null, "Computador", 2000.0);
 		Produto p2 = new Produto(null, "Impressora", 800.0);
@@ -84,7 +89,7 @@ public class CursomcApplication implements CommandLineRunner {
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().add(cat1);
 
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 
 		Estado est1 = new Estado(null, "Minas Gerais");
@@ -129,19 +134,19 @@ public class CursomcApplication implements CommandLineRunner {
 
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
-		
+
 		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.0);
 		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.0);
 		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.0, 1, 800.0);
-		
+
 		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
 		ped2.getItens().addAll(Arrays.asList(ip3));
-		
+
 		p1.getItens().add(ip1);
 		p2.getItens().add(ip3);
 		p3.getItens().add(ip2);
-		
-		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 
 	}
 
