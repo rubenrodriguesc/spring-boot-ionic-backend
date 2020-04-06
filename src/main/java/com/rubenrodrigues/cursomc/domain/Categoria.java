@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.rubenrodrigues.cursomc.domain.dto.CategoriaDTO;
+
 @Entity
 public class Categoria implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -49,6 +51,10 @@ public class Categoria implements Serializable {
 
 	public List<Produto> getProdutos() {
 		return produtos;
+	}
+	
+	public static Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 
 	@Override
