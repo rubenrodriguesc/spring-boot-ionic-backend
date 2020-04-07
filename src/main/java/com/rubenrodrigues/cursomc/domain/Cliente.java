@@ -13,8 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rubenrodrigues.cursomc.domain.dto.ClienteDTO;
 import com.rubenrodrigues.cursomc.domain.enums.TipoCliente;
 
 @Entity
@@ -49,7 +51,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpfCnpj = cpfCnpj;
-		this.tipo = tipo.getCod();
+		this.tipo = (tipo == null) ? null : tipo.getCod();
 	}
 
 	public Integer getId() {
@@ -103,6 +105,10 @@ public class Cliente implements Serializable {
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
+	
+	public static Cliente fromDTO(@Valid ClienteDTO objDto) {
+		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+	}
 
 	@Override
 	public int hashCode() {
@@ -128,5 +134,6 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
+
 
 }
