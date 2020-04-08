@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.rubenrodrigues.cursomc.domain.Cliente;
 import com.rubenrodrigues.cursomc.repositories.ClienteRepository;
+import com.rubenrodrigues.cursomc.repositories.EnderecoRepository;
 import com.rubenrodrigues.cursomc.services.exceptions.DataIntegrityException;
 import com.rubenrodrigues.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -20,11 +21,21 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repository;
+	
+	@Autowired
+	private EnderecoRepository enredecoRepository;
 
 	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
+	}
+	
+	public Cliente insert(Cliente obj) {
+		obj.setId(null);
+		obj = repository.save(obj);
+		enredecoRepository.saveAll(obj.getEnderecos());
+		return obj;
 	}
 	
 	public Cliente update(Cliente obj) {
@@ -55,4 +66,5 @@ public class ClienteService {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
 	}
+
 }

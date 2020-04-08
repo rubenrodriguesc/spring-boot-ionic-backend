@@ -17,6 +17,7 @@ import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rubenrodrigues.cursomc.domain.dto.ClienteDTO;
+import com.rubenrodrigues.cursomc.domain.dto.ClienteNewDTO;
 import com.rubenrodrigues.cursomc.domain.enums.TipoCliente;
 
 @Entity
@@ -105,9 +106,24 @@ public class Cliente implements Serializable {
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
-	
+
 	public static Cliente fromDTO(@Valid ClienteDTO objDto) {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+	}
+
+	public static Cliente fromDTO(@Valid ClienteNewDTO objDto) {
+		Cliente cliente = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfCnpj(),
+				TipoCliente.toEnum(objDto.getTipo()));
+		Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);
+		Endereco endereco = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(),
+				objDto.getBairro(), objDto.getCep(), cidade, cliente);
+		cliente.getEnderecos().add(endereco);
+		cliente.getTelefones().add(objDto.getTelefone1());
+		if (objDto.getTelefone2() != null)
+			cliente.getTelefones().add(objDto.getTelefone2());
+		if (objDto.getTelefone3() != null)
+			cliente.getTelefones().add(objDto.getTelefone3());
+		return cliente;
 	}
 
 	@Override
@@ -134,6 +150,5 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
-
 
 }
