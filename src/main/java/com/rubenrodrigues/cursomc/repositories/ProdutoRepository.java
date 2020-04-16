@@ -16,6 +16,8 @@ import com.rubenrodrigues.cursomc.domain.Produto;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 	
+	// https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#reference
+	
 	@Transactional(readOnly = true)
 	@Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categorias cat "
 			+ "WHERE obj.nome LIKE %:nome% AND cat IN :categorias")
