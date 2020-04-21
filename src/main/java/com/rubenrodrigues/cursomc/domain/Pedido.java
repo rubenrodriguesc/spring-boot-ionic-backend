@@ -1,8 +1,12 @@
 package com.rubenrodrigues.cursomc.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -24,7 +28,7 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant instante;
 
@@ -34,11 +38,11 @@ public class Pedido implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "endereco_entrega_id")
 	private Endereco enderecoEntrega;
-	
+
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
 
@@ -96,7 +100,7 @@ public class Pedido implements Serializable {
 	public Set<ItemPedido> getItens() {
 		return itens;
 	}
-	
+
 	public double getTotalPedido() {
 		double soma = 0.0;
 		for (ItemPedido itemPedido : itens) {
@@ -128,6 +132,32 @@ public class Pedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		Locale ptBR = new Locale("pt", "BR");
+		NumberFormat nf = NumberFormat.getCurrencyInstance(ptBR);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm").withLocale(ptBR)
+				.withZone(ZoneId.systemDefault());
+		StringBuilder builder = new StringBuilder();
+		builder.append("\n");
+		builder.append("Pedido No: ");
+		builder.append(id);
+		builder.append(" - Instante: ");
+		builder.append(formatter.format(getInstante()));
+		builder.append("\nCliente: ");
+		builder.append(getCliente().getNome());
+		builder.append("\nStatus Pagto: ");
+		builder.append(getPagamento().getEstado().getDescricao());
+		builder.append("\nItens pedido: \n");
+		for (ItemPedido itemPedido : itens) {
+			builder.append(itemPedido.toString());
+		}
+		builder.append("\nValor Total Pedido: ");
+		builder.append(nf.format(getTotalPedido()));
+		builder.append("\n");
+		return builder.toString();
 	}
 
 }
