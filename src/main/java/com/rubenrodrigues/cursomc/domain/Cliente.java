@@ -17,6 +17,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rubenrodrigues.cursomc.domain.dto.ClienteDTO;
 import com.rubenrodrigues.cursomc.domain.dto.ClienteNewDTO;
@@ -25,6 +28,9 @@ import com.rubenrodrigues.cursomc.domain.enums.TipoCliente;
 @Entity
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private static BCryptPasswordEncoder passwordEncoder;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +41,9 @@ public class Cliente implements Serializable {
 	private String email;
 	private String cpfCnpj;
 	private Integer tipo;
+	
+	@JsonIgnore
+	private String senha;
 
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -50,13 +59,14 @@ public class Cliente implements Serializable {
 	public Cliente() {
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfCnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfCnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfCnpj = cpfCnpj;
 		this.tipo = (tipo == null) ? null : tipo.getCod();
+		this.senha = senha;
 	}
 
 	public Integer getId() {
@@ -99,6 +109,14 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCod();
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
@@ -112,12 +130,12 @@ public class Cliente implements Serializable {
 	}
 
 	public static Cliente fromDTO(@Valid ClienteDTO objDto) {
-		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null);
 	}
 
 	public static Cliente fromDTO(@Valid ClienteNewDTO objDto) {
 		Cliente cliente = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfCnpj(),
-				TipoCliente.toEnum(objDto.getTipo()));
+				TipoCliente.toEnum(objDto.getTipo()), passwordEncoder.encode(objDto.getSenha()));
 		Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);
 		Endereco endereco = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(),
 				objDto.getBairro(), objDto.getCep(), cidade, cliente);
