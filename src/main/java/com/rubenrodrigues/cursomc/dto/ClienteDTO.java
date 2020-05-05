@@ -1,4 +1,4 @@
-package com.rubenrodrigues.cursomc.domain.dto;
+package com.rubenrodrigues.cursomc.dto;
 
 import java.io.Serializable;
 

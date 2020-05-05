@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rubenrodrigues.cursomc.domain.Cliente;
-import com.rubenrodrigues.cursomc.domain.dto.ClienteDTO;
-import com.rubenrodrigues.cursomc.domain.dto.ClienteNewDTO;
+import com.rubenrodrigues.cursomc.dto.ClienteDTO;
+import com.rubenrodrigues.cursomc.dto.ClienteNewDTO;
 import com.rubenrodrigues.cursomc.services.ClienteService;
 
 @RestController

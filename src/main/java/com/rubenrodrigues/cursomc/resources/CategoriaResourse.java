@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rubenrodrigues.cursomc.domain.Categoria;
-import com.rubenrodrigues.cursomc.domain.dto.CategoriaDTO;
+import com.rubenrodrigues.cursomc.dto.CategoriaDTO;
 import com.rubenrodrigues.cursomc.services.CategoriaService;
 
 @RestController

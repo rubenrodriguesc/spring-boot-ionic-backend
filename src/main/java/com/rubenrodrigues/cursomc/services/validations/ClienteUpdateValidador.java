@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.rubenrodrigues.cursomc.domain.Cliente;
-import com.rubenrodrigues.cursomc.domain.dto.ClienteDTO;
+import com.rubenrodrigues.cursomc.dto.ClienteDTO;
 import com.rubenrodrigues.cursomc.repositories.ClienteRepository;
 import com.rubenrodrigues.cursomc.resources.exceptions.FieldMessage;
 

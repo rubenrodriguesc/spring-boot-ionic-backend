@@ -23,10 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rubenrodrigues.cursomc.domain.dto.ClienteDTO;
-import com.rubenrodrigues.cursomc.domain.dto.ClienteNewDTO;
 import com.rubenrodrigues.cursomc.domain.enums.Perfil;
 import com.rubenrodrigues.cursomc.domain.enums.TipoCliente;
+import com.rubenrodrigues.cursomc.dto.ClienteDTO;
+import com.rubenrodrigues.cursomc.dto.ClienteNewDTO;
 
 @Entity
 public class Cliente implements Serializable {

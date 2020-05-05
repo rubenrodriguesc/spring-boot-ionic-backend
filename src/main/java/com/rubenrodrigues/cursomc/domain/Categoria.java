@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.rubenrodrigues.cursomc.domain.dto.CategoriaDTO;
+import com.rubenrodrigues.cursomc.dto.CategoriaDTO;
 
 @Entity
 public class Categoria implements Serializable {
