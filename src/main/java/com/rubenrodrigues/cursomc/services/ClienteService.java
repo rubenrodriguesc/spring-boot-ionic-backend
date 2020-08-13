@@ -1,5 +1,6 @@
 package com.rubenrodrigues.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rubenrodrigues.cursomc.domain.Cliente;
 import com.rubenrodrigues.cursomc.domain.enums.Perfil;
@@ -27,6 +29,9 @@ public class ClienteService {
 	
 	@Autowired
 	private EnderecoRepository enredecoRepository;
+	
+	@Autowired
+	private S3Service s3Service;
 
 	public Cliente find(Integer id) {
 		
@@ -74,6 +79,10 @@ public class ClienteService {
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 
 }
